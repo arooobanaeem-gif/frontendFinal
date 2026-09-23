@@ -57,9 +57,19 @@ export default function App() {
   const [page, setPage] = useState("form");
   const [submittedData, setSubmittedData] = useState(null);
 
-  const handleSubmit = (data) => {
-    setSubmittedData(data);
-    setPage("success");
+  const handleSubmit = async (data) => {
+    try {
+      const res = await fetch("https://backendfinal-production-fe9c.up.railway.app/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      setSubmittedData(result);
+      setPage("success");
+    } catch (err) {
+      console.error("Submission failed:", err);
+    }
   };
 
   return (
